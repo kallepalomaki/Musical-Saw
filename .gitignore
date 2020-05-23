@@ -1,0 +1,7 @@
+ios-build/
+cocos2d/
+modules/
+git_old/
+proj.win32/
+proj.linux/
+proj.android/
