@@ -8,7 +8,7 @@ https://www.gnu.org/licenses/old-licenses/gpl-2.0.en.html
 You can get the Musical Saw app from Apple AppStore for free.
 
 The project uses cocos2dx and Juce libraries. That you need to obtain
-separately.
+them separately.
 
 Steps to get going.
 
@@ -22,7 +22,7 @@ git clone https://github.com/cocos2d/cocos2d-x cocos2d-x
 cd cocos2d-x
 git checkout f07cf50a3edd4074447135448ce981823b341927 
 
-2) Get Juce. I have used Version 3.2.0 is used. You can get it from github
+2) Get Juce. I have used Version 3.2.0. You can get it from github
 as follows.
 git clone https://github.com/juce-framework/JUCE juce
 cd juce
@@ -41,7 +41,7 @@ www.cocos.com
 flag on. Make sure all *.cpp files are compiled.
 
 5) Add Juce. In xcode go to build phases and add the following juce files
-to Compile Sources. I have used relative paths not copying files into project:
+to Compile Sources. Add juce "modules" directory under JuceLibraryCode/
 
 juce_audio_formats.mm
 juce_graphics.mm
@@ -55,7 +55,7 @@ juce_audio_basics.mm
 
 6) In build phases headers add AppConfig.h
 
-7) Add all the png images into resources directory.
+7) Add all the png images into Resources directory.
 
 6) Under proj.ios_mac/ios drag icon*.png files to right places in
 Images.xcassets
