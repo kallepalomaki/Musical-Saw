@@ -72,7 +72,7 @@ void MainContentComponent::releaseResources()
         
 void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
         {
-            double fs=44100, timeSec, a=0.005,aG=0.001,sinTmp,fVib=6,envGainAdj,TExpWin=0.5,expWin,dBAtt=-60,linWin;
+            double fs=44100, timeSec, a=0.005,aG=0.001,sinTmp,fVib=6,envGainAdj,TExpWin=0.5,expWin,dBAtt=-60,linWin, gain=1.1;
             static double freqSinSmoothLog=0, FM[1000],freqSinSmooth,freqUpdate,depthSmooth,envGainSmooth,TEndSampleIdx=0;
             static bool flagAtt=false;
             int i;
@@ -151,7 +151,7 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                             //else{
                             //    buffer0[sample]=0;
                             //}
-                            buffer1[sample]=buffer0[sample];
+                            buffer1[sample]=gain*buffer0[sample];
                         //}
                     }
                     

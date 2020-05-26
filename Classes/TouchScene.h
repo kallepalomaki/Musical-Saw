@@ -15,6 +15,7 @@
 #pragma once
 #include "mainComp.h"
 #include "cocos2d.h"
+#include "editor-support/cocostudio/SimpleAudioEngine.h"
 #include "ui/CocosGUI.h"
 #include "../JuceLibraryCode/JuceHeader.h"
 
@@ -28,6 +29,7 @@ public:
     virtual void onTouchMoved(cocos2d::Touch*, cocos2d::Event*);
     virtual void onTouchCancelled(cocos2d::Touch*, cocos2d::Event*);
     virtual void onEnter();
+    virtual void update(float);
     CREATE_FUNC(TouchScene);
     void playSounds(char *);
     void playTutorial();
@@ -49,6 +51,7 @@ private:
     bool flag_show_touch=false;
     float scale2=0.9; // was 0.9
     float scale =1.0; // was 1
+    float backGroundVolume=0.05f;
     static bool m_run_tutorial;
     static bool wait_scene_trans;
 };

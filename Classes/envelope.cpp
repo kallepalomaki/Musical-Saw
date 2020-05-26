@@ -43,7 +43,7 @@ void filterIIR::initializeVibIntegrator(){
     taps = b.size();
     xBuffer.assign(taps,0);
     yBuffer.assign(taps,0);
-    printf("taps %d\n", taps);
+    //printf("taps %d\n", taps);
 }
 
 void filterIIR::initializeLpIIR(){

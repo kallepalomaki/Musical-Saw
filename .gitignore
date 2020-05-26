@@ -5,3 +5,8 @@ git_old/
 proj.win32/
 proj.linux/
 proj.android/
+Resources/sounds/
+*mp3
+*wav
+*MP3
+*WAV

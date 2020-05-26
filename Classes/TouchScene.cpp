@@ -54,6 +54,22 @@ void TouchScene::onEnter()
 
 }
 
+
+void TouchScene::update(float delta)
+{
+    auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+    //audio->setBackgroundMusicVolume(0.001f);
+    if (!audio->isBackgroundMusicPlaying()) {
+        auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
+        //backGroundAudio->setBackgroundMusicVolume(0.1f);
+        backGroundAudio-> playBackgroundMusic("352051_kaki.mp3",false);
+        backGroundAudio->setBackgroundMusicVolume(backGroundVolume);
+        sleep(1.0f);
+        printf("update\n");
+    }
+}
+
+
 void TouchScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
         playTutorial();
@@ -106,6 +122,13 @@ bool TouchScene::init()
         temp->setVisible(false);
         this->addChild(temp, 0);
     }
+    
+    auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
+    //backGroundAudio->setBackgroundMusicVolume(0.1f);
+    //backGroundAudio-> playBackgroundMusic("352051_kaki.mp3");
+    //backGroundAudio->setBackgroundMusicVolume(backGroundVolume);
+    //backGroundAudio->setBackgroundMusicVolume(UserDefault::getInstance()->getFloatForKey("musicVolume", 0.5f));
+    this->scheduleUpdate();
     return true;
 }
 
