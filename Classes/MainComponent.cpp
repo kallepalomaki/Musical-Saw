@@ -72,8 +72,8 @@ void MainContentComponent::releaseResources()
         
 void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& bufferToFill)
         {
-            double fs=44100, timeSec, a=0.005,aG=0.001,sinTmp,fVib=6,envGainAdj,TExpWin=0.5,expWin,dBAtt=-60,linWin, gain=1.1;
-            static double freqSinSmoothLog=0, FM[1000],freqSinSmooth,freqUpdate,depthSmooth,envGainSmooth,TEndSampleIdx=0;
+            double fs=44100, timeSec, a=0.005,aG=0.001,sinTmp, sinTmp2, sinTmp3,fVib=6,envGainAdj,TExpWin=0.5,expWin,dBAtt=-60,linWin, gain=1.1;
+            static double freqSinSmoothLog=0, FM[1000],freqSinSmooth,freqUpdate, freq2Update, freq3Update,depthSmooth,envGainSmooth,TEndSampleIdx=0;
             static bool flagAtt=false;
             int i;
             
@@ -117,8 +117,13 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                                 //printf("freq smft %lf freq %lf mem0 %lf mem1 %lf \n",freqSinSmooth,freqSin,FM[0],FM[1]);
                                 freqSinSmooth=pow(2,freqSinSmoothLog);
                                 freqUpdate=freqUpdate+freqSinSmooth;
+                                freq2Update=1.01*freqUpdate;
+                                freq3Update=0.991*freqUpdate;
+
                                 depthSmooth=aG*depth+(1-aG)*depthSmooth;
                                 sinTmp=sin(2*3.14*freqUpdate/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freqUpdate/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
+                                sinTmp2=sin(2*3.14*freq2Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq2Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
+                                sinTmp3=sin(2*3.14*freq3Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq3Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
                                 envGainSmooth=aG*envGain+(1-aG)*envGainSmooth;
                                 envGainAdj=pow(envGainSmooth,0.5);
                                 if (timeSec<TExpWin)
@@ -144,7 +149,7 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                                 //printf("envGainAdj %f depthSmooth %f\n",envGainAdj, depthSmooth);
                                 //printf("expWin %f linWin %f", expWin, linWin);
                                 if (flagOn==true)
-                                buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),envGainAdj)*0.03*sinTmp;
+                                    buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),0*envGainAdj)*0.03*0.4*(sinTmp+sinTmp2+sinTmp3);
                                 else
                                     buffer0[sample]=0;
                             }
