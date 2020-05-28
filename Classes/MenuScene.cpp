@@ -1,28 +1,23 @@
 //
-//  HelloWorldScene.cpp
-//  drums
+//  MenuScene.cpp
+//  saw
 //
-//  Created by Palomäki Kalle on 05/08/15.
-//
+//  Created by Kalle Palomäki on 28.5.2020.
 //
 
-#include "HelloWorldScene.h"
-#include "TouchScene.h"
 #include "MenuScene.h"
+#include "TouchScene.h"
 #include <iostream>
-
-
-//using namespace cocos2d::ui;
 
 USING_NS_CC;
 
-Scene* HelloWorld::createScene()
+Scene* MenuScene::createScene()
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
     // 'layer' is an autorelease object
-    auto layer = HelloWorld::create();
+    auto layer = MenuScene::create();
     
     // add layer as a child to scene
     scene->addChild(layer);
@@ -31,20 +26,20 @@ Scene* HelloWorld::createScene()
     return scene;
 }
 
-void HelloWorld::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+void MenuScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
         run_tutorial=true;
     }
 }
 
-void HelloWorld::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+void MenuScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
-        transitionToMenuScene();
+        run_tutorial=true;
     }
 }
 
 // on "init" you need to initialize your instance
-bool HelloWorld::init()
+bool MenuScene::init()
 {
     //////////////////////////////
     // 1. super init first
@@ -71,41 +66,19 @@ bool HelloWorld::init()
     sprite->setScale(1.0);
     // add the sprite as a child to this layer
     this->addChild(sprite, 0);
-    auto sprite2 = Sprite::create("saha_tekstit_otsikko.png");
     
-    // position the sprite on the center of the screen
-    sprite2->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    sprite2->setScale(0.5);
-    // add the sprite as a child to this layer
-    this->addChild(sprite2, 0);
-    auto scaleBy = Sequence::create(ScaleBy::create(0.6,2.4), ScaleBy::create(0.4,0.8), NULL);
-    //auto scaleBy = ScaleBy::create(0.6,2.2);
-    auto rotateBy2 = Sequence::create(RotateBy::create(0.2, -30.0),RotateBy::create(0.2, 30.0),NULL);
-    sprite2->runAction(scaleBy);
-    sprite2->runAction(rotateBy2);
     
     ui::Button* btn = ui::Button::create("saha_tutorial_button.png");
     auto hideShow = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
     btn->runAction(hideShow);
     btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
-    btn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::buttonPressed, this) );
+    btn->addTouchEventListener(CC_CALLBACK_2(MenuScene::buttonPressed, this) );
     btn->setScale(0.5);
     this->addChild(btn);
-    
-    ui::Button* btn2 = ui::Button::create("saha_tutorial_button.png");
-    auto hideShow2 = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
-    btn2->runAction(hideShow2);
-    btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
-    btn2->addTouchEventListener(CC_CALLBACK_2(HelloWorld::menuButtonPressed, this) );
-    btn2->setScale(0.5);
-    this->addChild(btn2);
     
     auto funcCallAction = CallFunc::create([=](){
         transitionToGameScene();
     });
-    
-    //auto manuCallAction = CallFunc::create([=](){
-    //});
     
     auto action = Sequence::create(DelayTime::create(3), funcCallAction, NULL);
 
@@ -114,19 +87,10 @@ bool HelloWorld::init()
     return true;
 }
 
-void HelloWorld::transitionToGameScene() {
+void MenuScene::transitionToGameScene() {
     auto director = Director::getInstance();
     
     auto scene2 = TouchScene::createScene(run_tutorial);
     // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }
-
-void HelloWorld::transitionToMenuScene() {
-    auto director = Director::getInstance();
-    
-    auto scene2 = MenuScene::createScene();
-    // TouchScene::setRunTutorial();
-    director->replaceScene(scene2);
-}
-

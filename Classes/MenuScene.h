@@ -1,19 +1,18 @@
 //
-//  HelloWorldScene.h
-//  drums
+//  MenuScene.hpp
+//  saw
 //
-//  Created by Palomäki Kalle on 05/08/15.
-//
+//  Created by Kalle Palomäki on 28.5.2020.
 //
 
-#ifndef __drums__HelloWorldScene__
-#define __drums__HelloWorldScene__
+#ifndef __drums__MenuScene__
+#define __drums__MenuScene__
 
-//#include <stdio.h>
+#include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
-class HelloWorld : public cocos2d::Layer
+class MenuScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -27,14 +26,12 @@ public:
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
     void transitionToGameScene();
-    void transitionToMenuScene();
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(MenuScene);
 private:
     cocos2d::Label* labelTouchInfo;
     bool run_tutorial = false;
 
 };
-
-#endif //__drums__HelloWorldScene__
+#endif /* MenuScene_h */
