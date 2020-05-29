@@ -92,7 +92,7 @@ bool HelloWorld::init()
     btn->setScale(0.5);
     this->addChild(btn);
     
-    ui::Button* btn2 = ui::Button::create("saha_tutorial_button.png");
+    ui::Button* btn2 = ui::Button::create("hammasratas.jpg");
     auto hideShow2 = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
     btn2->runAction(hideShow2);
     btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));

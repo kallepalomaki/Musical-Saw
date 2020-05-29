@@ -28,7 +28,7 @@ Scene* MenuScene::createScene()
 
 void MenuScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
-        run_tutorial=true;
+        transitionToGameScene();
     }
 }
 
@@ -80,9 +80,9 @@ bool MenuScene::init()
         transitionToGameScene();
     });
     
-    auto action = Sequence::create(DelayTime::create(3), funcCallAction, NULL);
+    //auto action = Sequence::create(DelayTime::create(3), funcCallAction, NULL);
 
-    this->runAction(action);
+    //this->runAction(action);
     //the code mean that the layer "HelloWorld" run an action which wait 2 second and then call the function "transitionToGameScene".
     return true;
 }
@@ -90,7 +90,7 @@ bool MenuScene::init()
 void MenuScene::transitionToGameScene() {
     auto director = Director::getInstance();
     
-    auto scene2 = TouchScene::createScene(run_tutorial);
+    auto scene2 = TouchScene::createScene(false);
     // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }
