@@ -117,8 +117,8 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                                 //printf("freq smft %lf freq %lf mem0 %lf mem1 %lf \n",freqSinSmooth,freqSin,FM[0],FM[1]);
                                 freqSinSmooth=pow(2,freqSinSmoothLog);
                                 freqUpdate=freqUpdate+freqSinSmooth;
-                                freq2Update=1.01*freqUpdate;
-                                freq3Update=0.991*freqUpdate;
+                                freq2Update=1.008*freqUpdate;
+                                freq3Update=0.992*freqUpdate;
 
                                 depthSmooth=aG*depth+(1-aG)*depthSmooth;
                                 sinTmp=sin(2*3.14*freqUpdate/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freqUpdate/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));

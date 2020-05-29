@@ -7,6 +7,7 @@
 
 #include "MenuScene.h"
 #include "TouchScene.h"
+#include <CCUserDefault.h>
 #include <iostream>
 
 USING_NS_CC;
@@ -32,9 +33,19 @@ void MenuScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchE
     }
 }
 
-void MenuScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+void MenuScene::soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
-        run_tutorial=true;
+        auto userdefaults = cocos2d::UserDefault::getInstance();
+        
+        auto bg_music_off=userdefaults->getBoolForKey("bg_music_off");
+        
+        if (bg_music_off){ userdefaults->setBoolForKey("bg_music_off",false);
+            on_sprite->setTexture("On.png");
+        }
+        else {
+            userdefaults->setBoolForKey("bg_music_off",true);
+            on_sprite->setTexture("Off.png");
+        }
     }
 }
 
@@ -76,6 +87,14 @@ bool MenuScene::init()
     btn->setScale(0.5);
     this->addChild(btn);
     
+    ui::Button* btn2= ui::Button::create("hammasratas.jpg");
+    //auto hideShow = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
+    //btn2->runAction(hideShow);
+    btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
+    btn2->addTouchEventListener(CC_CALLBACK_2(MenuScene::soundButtonPressed, this) );
+    btn2->setScale(0.5);
+    this->addChild(btn2);
+    
     auto funcCallAction = CallFunc::create([=](){
         transitionToGameScene();
     });
@@ -84,6 +103,16 @@ bool MenuScene::init()
 
     //this->runAction(action);
     //the code mean that the layer "HelloWorld" run an action which wait 2 second and then call the function "transitionToGameScene".
+    
+    // add "HelloWorld" splash screen"
+    on_sprite = Sprite::create("On.png");
+    
+    // position the sprite on the center of the screen
+    on_sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    on_sprite->setScale(1.0);
+    // add the sprite as a child to this layer
+    this->addChild(on_sprite, 0);
+    
     return true;
 }
 

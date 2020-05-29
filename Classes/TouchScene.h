@@ -49,6 +49,7 @@ private:
     bool flagMusicPlaying=false;
     bool tutorial_active=false;
     bool flag_show_touch=false;
+    bool bg_music=true;
     float scale2=0.9; // was 0.9
     float scale =1.0; // was 1
     float backGroundVolume=0.05f;

@@ -22,7 +22,7 @@ public:
     virtual bool init();
    // virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
-    void menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+    void soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
     void transitionToGameScene();
@@ -31,6 +31,7 @@ public:
     CREATE_FUNC(MenuScene);
 private:
     cocos2d::Label* labelTouchInfo;
+    cocos2d::Sprite* on_sprite;
     bool run_tutorial = false;
 
 };
