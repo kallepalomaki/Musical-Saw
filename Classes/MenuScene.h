@@ -23,9 +23,12 @@ public:
    // virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     void soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+    void attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
     void transitionToGameScene();
+    void transitionToAttributionScene();
 
     // implement the "static create()" method manually
     CREATE_FUNC(MenuScene);

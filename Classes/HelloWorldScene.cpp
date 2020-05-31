@@ -9,9 +9,8 @@
 #include "HelloWorldScene.h"
 #include "TouchScene.h"
 #include "MenuScene.h"
+#include "AttributionScene.h"
 #include <iostream>
-
-
 //using namespace cocos2d::ui;
 
 USING_NS_CC;
@@ -40,6 +39,12 @@ void HelloWorld::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::Touch
 void HelloWorld::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
         transitionToMenuScene();
+    }
+}
+
+void HelloWorld::attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+    if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
+        transitionToAttributionScene();
     }
 }
 
@@ -100,6 +105,14 @@ bool HelloWorld::init()
     btn2->setScale(0.5);
     this->addChild(btn2);
     
+    ui::Button* btn3 = ui::Button::create("hammasratas.jpg");
+    auto hideShow3 = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
+    btn3->runAction(hideShow3);
+    btn3->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 2*visibleSize.height/4 + origin.y));
+    btn3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::attributionButtonPressed, this) );
+    btn3->setScale(0.5);
+    this->addChild(btn3);
+    
     auto funcCallAction = CallFunc::create([=](){
         transitionToGameScene();
     });
@@ -130,3 +143,10 @@ void HelloWorld::transitionToMenuScene() {
     director->replaceScene(scene2);
 }
 
+void HelloWorld::transitionToAttributionScene() {
+    auto director = Director::getInstance();
+    
+    auto scene2 = AttributionScene::createScene();
+    // TouchScene::setRunTutorial();
+    director->replaceScene(scene2);
+}

@@ -1,19 +1,17 @@
 //
-//  HelloWorldScene.h
-//  drums
+//  AttributionScene.h
+//  saw
 //
-//  Created by Palomäki Kalle on 05/08/15.
-//
+//  Created by Kalle Palomäki on 31.5.2020.
 //
 
-#ifndef __drums__HelloWorldScene__
-#define __drums__HelloWorldScene__
-
-//#include <stdio.h>
+#ifndef AttributionScene_h
+#define AttributionScene_h
+#include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
-class HelloWorld : public cocos2d::Layer
+class AttributionScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -23,21 +21,17 @@ public:
     virtual bool init();
    // virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
-    void menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
-    void attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+
     // a selector callback
     //void menuCloseCallback(cocos2d::Ref* pSender);
-    void transitionToGameScene();
     void transitionToMenuScene();
-    void transitionToAttributionScene();
-
-
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(AttributionScene);
 private:
     cocos2d::Label* labelTouchInfo;
+    cocos2d::Sprite* on_sprite;
     bool run_tutorial = false;
 
 };
 
-#endif //__drums__HelloWorldScene__
+#endif /* AttributionScene_h */

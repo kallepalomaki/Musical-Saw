@@ -68,12 +68,12 @@ void TouchScene::update(float delta)
             //backGroundAudio->setBackgroundMusicVolume(0.1f);
             
             
-            auto recording_name=pickRecording();
-            const char * recording_name_c = recording_name.c_str();
+            //auto recording_name=pickRecording();
+            //const char * recording_name_c = recording_name.c_str();
             //auto recording_name_c="352051_kaki.mp3";
 
-            backGroundAudio-> playBackgroundMusic(recording_name_c,false);
-            //backGroundAudio-> playBackgroundMusic("352051_kaki.mp3",false);
+            //backGroundAudio-> playBackgroundMusic(recording_name_c,false);
+            backGroundAudio-> playBackgroundMusic("352051_kaki.mp3",false);
             
             backGroundAudio->setBackgroundMusicVolume(backGroundVolume);
             sleep(1.0f);
@@ -82,27 +82,14 @@ void TouchScene::update(float delta)
     }
 }
 
-string TouchScene::pickRecording()
+/*string TouchScene::pickRecording()
 {
     string recording_name;
-    srand(time(0)); 
+
     auto recording_idx = rand() % 4;
-    switch (recording_idx){
-        case 0:
-            recording_name="352051_kaki.mp3";
-            break;
-        case 1:
-            recording_name="253143_lintuja.mp3";
-            break;
-        case 2:
-            recording_name="265058_mustarastas.mp3";
-            break;
-        case 3:
-            recording_name="249729_kaki.mp3";
-            break;
-        }
-   return recording_name;
-}
+    recording_name="352051_kaki.mp3";
+    return recording_name;
+}*/
 
 void TouchScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {

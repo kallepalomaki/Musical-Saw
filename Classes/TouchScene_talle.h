@@ -18,7 +18,7 @@
 #include "editor-support/cocostudio/SimpleAudioEngine.h"
 #include "ui/CocosGUI.h"
 #include "../JuceLibraryCode/JuceHeader.h"
-using namespace std;
+//using namespace std;
 
 class TouchScene : public cocos2d::Layer
 {
@@ -40,7 +40,7 @@ public:
     float posToEnvGain(float);
     float posToVibDepth(float);
     void setRunTutorial(bool);
-    string pickRecording();
+    //string pickRecording();
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     MainContentComponent testi2;
 private:
