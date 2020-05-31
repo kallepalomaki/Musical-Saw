@@ -41,6 +41,8 @@ public:
     float posToVibDepth(float);
     void setRunTutorial(bool);
     string pickRecording();
+    void transitionToMenuScene();
+    void menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     MainContentComponent testi2;
 private:

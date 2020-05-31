@@ -7,17 +7,27 @@
 //
 
 #include "TouchScene.h"
+#include "MenuScene.h"
+
 #include <iostream>
 //#include <string>
 USING_NS_CC;
-//using namespace std;
-
-
-//bool m_run_tutorial=false;
-//bool wait_scene_trans=false;
 
 bool TouchScene::m_run_tutorial=false;
 bool TouchScene::wait_scene_trans=false;
+
+void TouchScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+    if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
+        transitionToMenuScene();
+    }
+}
+
+void TouchScene::transitionToMenuScene() {
+    auto director = Director::getInstance();
+    
+    auto scene2 = MenuScene::createScene();
+    director->replaceScene(scene2);
+}
 
 cocos2d::Scene* TouchScene::createScene(bool run_tutorial)
 {
@@ -85,7 +95,7 @@ void TouchScene::update(float delta)
 string TouchScene::pickRecording()
 {
     string recording_name;
-    srand(time(0)); 
+    srand(time(0));
     auto recording_idx = rand() % 4;
     switch (recording_idx){
         case 0:
@@ -120,7 +130,8 @@ bool TouchScene::init()
     {
         return false;
     }
-    
+    cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+    Vec2 origin = Director::getInstance()->getVisibleOrigin();
     // Initialize touch listener
     auto touchListener = cocos2d::EventListenerTouchOneByOne::create();
     touchListener->onTouchBegan = CC_CALLBACK_2(TouchScene::onTouchBegan, this);
@@ -144,6 +155,12 @@ bool TouchScene::init()
     saw_player->setScale(scale*scale2);
     this->addChild(saw_player, 0);
     testi2.ini();
+    
+    ui::Button* btn2 = ui::Button::create("hammasratas.jpg");
+    btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
+    btn2->addTouchEventListener(CC_CALLBACK_2(TouchScene::menuButtonPressed, this) );
+    btn2->setScale(0.5);
+    this->addChild(btn2);
 
     //while(m_run_tutorial==false);
     if (flag_show_touch) {
