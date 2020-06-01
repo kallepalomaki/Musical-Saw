@@ -45,6 +45,12 @@ void MenuScene::soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::T
         }
         else {
             userdefaults->setBoolForKey("bg_music_off",true);
+            auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+            if (audio->isBackgroundMusicPlaying()) {
+                printf("trying to stop background\n");
+                audio->stopBackgroundMusic();
+                //delete audio;
+            }
             on_sprite->setTexture("Off.png");
         }
     }
@@ -115,8 +121,9 @@ bool MenuScene::init()
 void MenuScene::transitionToGameScene() {
     auto director = Director::getInstance();
     
-    auto scene2 = TouchScene::createScene(false);
-    director->replaceScene(scene2);
+    //auto scene2 = TouchScene::createScene(false);
+    //director->replaceScene(scene2);
+    director->popScene();
 }
 
 void MenuScene::transitionToAttributionScene() {

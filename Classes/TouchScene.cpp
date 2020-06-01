@@ -24,9 +24,20 @@ void TouchScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::T
 
 void TouchScene::transitionToMenuScene() {
     auto director = Director::getInstance();
-    
+    auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+    //director->pushScene(<#Scene *scene#>)
+    printf("transition 1\n");
+    if (audio->isBackgroundMusicPlaying()) {
+        printf("trying to stop background\n");
+        //audio->stopBackgroundMusic();
+        //delete audio;
+    }
+    printf("transition2\n");
+    //testi2.shut();//releaseResources();
+    //testi2.releaseResources();
     auto scene2 = MenuScene::createScene();
-    director->replaceScene(scene2);
+    director->pushScene(scene2);
+    //director->replaceScene(scene2);
 }
 
 cocos2d::Scene* TouchScene::createScene(bool run_tutorial)
@@ -70,11 +81,14 @@ void TouchScene::onEnter()
 
 void TouchScene::update(float delta)
 {
+    auto userdefaults = cocos2d::UserDefault::getInstance();
+
+    bg_music=not(userdefaults->getBoolForKey("bg_music_off"));
     if (bg_music) {
-        auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+        auto backGroundAudio = CocosDenshion::SimpleAudioEngine::getInstance();
         //audio->setBackgroundMusicVolume(0.001f);
-        if (!audio->isBackgroundMusicPlaying()) {
-            auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
+        if (!backGroundAudio->isBackgroundMusicPlaying()) {
+            //auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
             //backGroundAudio->setBackgroundMusicVolume(0.1f);
             
             
@@ -180,11 +194,17 @@ bool TouchScene::init()
         bg_music=not(userdefaults->getBoolForKey("bg_music_off"));
     }
 
-    if (bg_music){
+    if (false){ //(bg_music){
         auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
         
-        this->scheduleUpdate();
+        if (backGroundAudio->isBackgroundMusicPlaying()) {
+            backGroundAudio->stopBackgroundMusic();
+        }
+        auto will_play=backGroundAudio-> willPlayBackgroundMusic();
+        
     }
+    this->scheduleUpdate();
+
     return true;
 }
 
