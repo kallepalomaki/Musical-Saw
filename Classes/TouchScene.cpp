@@ -170,7 +170,7 @@ bool TouchScene::init()
     this->addChild(saw_player, 0);
     testi2.ini();
     
-    ui::Button* btn2 = ui::Button::create("hammasratas.jpg");
+    ui::Button* btn2 = ui::Button::create("hammasratas.png");
     btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
     btn2->addTouchEventListener(CC_CALLBACK_2(TouchScene::menuButtonPressed, this) );
     btn2->setScale(0.5);
