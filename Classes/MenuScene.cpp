@@ -91,10 +91,10 @@ bool MenuScene::init()
     btn->setScale(0.5);
     this->addChild(btn);
     
-    ui::Button* btn2= ui::Button::create("hammasratas.jpg");
+    ui::Button* btn2= ui::Button::create("mustarastas.png");
     btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
     btn2->addTouchEventListener(CC_CALLBACK_2(MenuScene::soundButtonPressed, this) );
-    btn2->setScale(0.5);
+    btn2->setScale(0.25);
     this->addChild(btn2);
 
     ui::Button* btn3= ui::Button::create("hammasratas.jpg");
