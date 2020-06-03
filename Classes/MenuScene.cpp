@@ -37,14 +37,14 @@ void MenuScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchE
     }
 }
 
-void MenuScene::soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+void MenuScene::soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType, ui::Button* btn2) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
         auto userdefaults = cocos2d::UserDefault::getInstance();
         
         auto bg_music_off=userdefaults->getBoolForKey("bg_music_off");
         
         if (bg_music_off){ userdefaults->setBoolForKey("bg_music_off",false);
-            on_sprite->setTexture("On.png");
+            btn2->loadTextureNormal("mustarastas.png");
         }
         else {
             userdefaults->setBoolForKey("bg_music_off",true);
@@ -54,7 +54,7 @@ void MenuScene::soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::T
                 audio->stopBackgroundMusic();
                 //delete audio;
             }
-            on_sprite->setTexture("Off.png");
+            btn2->loadTextureNormal("mustarastas_nokka_kiinni.png");
         }
     }
 }
@@ -68,6 +68,7 @@ void MenuScene::attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Wid
 // on "init" you need to initialize your instance
 bool MenuScene::init()
 {
+    ui::Button* btn2;
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
@@ -93,10 +94,17 @@ bool MenuScene::init()
     btn->addTouchEventListener(CC_CALLBACK_2(MenuScene::buttonPressed, this) );
     btn->setScale(0.5);
     this->addChild(btn);
+  
+    auto userdefaults = cocos2d::UserDefault::getInstance();
+
+    auto bg_music=not(userdefaults->getBoolForKey("bg_music_off"));
+    if (bg_music)
+        btn2 = ui::Button::create("mustarastas.png");
+    else
+        btn2 = ui::Button::create("mustarastas_nokka_kiinni.png");
     
-    ui::Button* btn2= ui::Button::create("mustarastas.png");
     btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
-    btn2->addTouchEventListener(CC_CALLBACK_2(MenuScene::soundButtonPressed, this) );
+    btn2->addTouchEventListener(CC_CALLBACK_2(MenuScene::soundButtonPressed, this, btn2) );
     btn2->setScale(0.25);
     this->addChild(btn2);
 
@@ -109,14 +117,6 @@ bool MenuScene::init()
     //auto funcCallAction = CallFunc::create([=](){
     //    transitionToGameScene();
     //});
-
-    on_sprite = Sprite::create("On.png");
-    
-    // position the sprite on the center of the screen
-    on_sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
-    on_sprite->setScale(1.0);
-    // add the sprite as a child to this layer
-    this->addChild(on_sprite, 0);
     
     return true;
 }
