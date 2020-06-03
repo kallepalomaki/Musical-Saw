@@ -9,14 +9,17 @@
 #include <iostream>
 #include "AttributionScene.h"
 #include "MenuScene.h"
+#include "TouchScene.h"
 
 USING_NS_CC;
+int AttributionScene::m_prev_scene = 1;
 
-Scene* AttributionScene::createScene()
+Scene* AttributionScene::createScene(int prev_scene)
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
     
+    m_prev_scene=prev_scene;
     // 'layer' is an autorelease object
     auto layer = AttributionScene::create();
     
@@ -29,7 +32,10 @@ Scene* AttributionScene::createScene()
 
 void AttributionScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
-        transitionToMenuScene();
+        if (m_prev_scene==0)
+            transitionToGameScene();
+        else
+            transitionToMenuScene();
     }
 }
 
@@ -81,8 +87,17 @@ bool AttributionScene::init()
 
 void AttributionScene::transitionToMenuScene() {
     auto director = Director::getInstance();
-    
-    auto scene2 = MenuScene::createScene();
+    int prev_scene=1;
+    auto scene2 = MenuScene::createScene(prev_scene);
+    // TouchScene::setRunTutorial();
+    director->replaceScene(scene2);
+}
+
+void AttributionScene::transitionToGameScene() {
+    auto director = Director::getInstance();
+    //int prev_scene=1;
+    run_tutorial=false;
+    auto scene2 = TouchScene::createScene(run_tutorial);
     // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }

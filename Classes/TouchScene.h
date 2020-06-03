@@ -58,6 +58,7 @@ private:
     float scale =1.0; // was 1
     float backGroundVolume=0.05f;
     static bool m_run_tutorial;
-    static bool wait_scene_trans;
+    static int m_prev_scene;
+    //static bool wait_scene_trans;
 };
 #endif /* defined(__drums__TouchScene__) */

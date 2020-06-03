@@ -37,6 +37,7 @@ public:
 private:
     cocos2d::Label* labelTouchInfo;
     bool run_tutorial = false;
+    int m_prev_scene = 0;
 
 };
 

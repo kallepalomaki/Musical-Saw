@@ -12,8 +12,10 @@
 #include <iostream>
 
 USING_NS_CC;
+bool run_tutorial = false;
+int MenuScene::m_prev_scene = 1;
 
-Scene* MenuScene::createScene()
+Scene* MenuScene::createScene(int prev_scene)
 {
     // 'scene' is an autorelease object
     auto scene = Scene::create();
@@ -21,6 +23,7 @@ Scene* MenuScene::createScene()
     // 'layer' is an autorelease object
     auto layer = MenuScene::create();
     
+    m_prev_scene=prev_scene;
     // add layer as a child to scene
     scene->addChild(layer);
     
@@ -103,9 +106,9 @@ bool MenuScene::init()
     btn3->setScale(0.5);
     this->addChild(btn3);
     
-    auto funcCallAction = CallFunc::create([=](){
-        transitionToGameScene();
-    });
+    //auto funcCallAction = CallFunc::create([=](){
+    //    transitionToGameScene();
+    //});
 
     on_sprite = Sprite::create("On.png");
     
@@ -121,14 +124,18 @@ bool MenuScene::init()
 void MenuScene::transitionToGameScene() {
     auto director = Director::getInstance();
     
-    //auto scene2 = TouchScene::createScene(false);
-    //director->replaceScene(scene2);
-    director->popScene();
+    if (m_prev_scene==0)
+    {
+        auto scene2 = TouchScene::createScene(false);
+        director->replaceScene(scene2);
+    }
+    else
+        director->popScene();
 }
 
 void MenuScene::transitionToAttributionScene() {
     auto director = Director::getInstance();
-    
-    auto scene2 = AttributionScene::createScene();
+    int prev_scene=2;
+    auto scene2 = AttributionScene::createScene(prev_scene);
     director->replaceScene(scene2);
 }

@@ -16,7 +16,7 @@ class MenuScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
-    static cocos2d::Scene* createScene();
+    static cocos2d::Scene* createScene(int);
     
     // Here's a difference. Method 'init' in cocos2d-x returns bool, instead of returning 'id' in cocos2d-iphone
     virtual bool init();
@@ -35,7 +35,8 @@ public:
 private:
     cocos2d::Label* labelTouchInfo;
     cocos2d::Sprite* on_sprite;
-    bool run_tutorial = false;
+    static bool run_tutorial;
+    static int m_prev_scene;
 
 };
 #endif /* MenuScene_h */

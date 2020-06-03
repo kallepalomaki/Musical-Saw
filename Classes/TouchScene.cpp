@@ -10,11 +10,11 @@
 #include "MenuScene.h"
 
 #include <iostream>
-//#include <string>
 USING_NS_CC;
 
 bool TouchScene::m_run_tutorial=false;
-bool TouchScene::wait_scene_trans=false;
+int TouchScene::m_prev_scene=1;
+//bool TouchScene::wait_scene_trans=false;
 
 void TouchScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
@@ -25,6 +25,7 @@ void TouchScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::T
 void TouchScene::transitionToMenuScene() {
     auto director = Director::getInstance();
     auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
+    int prev_scene=1;
     //director->pushScene(<#Scene *scene#>)
     printf("transition 1\n");
     if (audio->isBackgroundMusicPlaying()) {
@@ -35,7 +36,7 @@ void TouchScene::transitionToMenuScene() {
     printf("transition2\n");
     //testi2.shut();//releaseResources();
     //testi2.releaseResources();
-    auto scene2 = MenuScene::createScene();
+    auto scene2 = MenuScene::createScene(prev_scene);
     director->pushScene(scene2);
     //director->replaceScene(scene2);
 }
@@ -48,7 +49,7 @@ cocos2d::Scene* TouchScene::createScene(bool run_tutorial)
     //this->setRunTutorial(run_tutorial);
     m_run_tutorial=run_tutorial; // run_tutorial;
     //auto director = Director::getInstance();
-    wait_scene_trans=true;
+    //wait_scene_trans=true;
     return scene;
 }
 

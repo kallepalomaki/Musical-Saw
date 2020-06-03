@@ -15,6 +15,9 @@
 
 USING_NS_CC;
 
+//int HelloWorld::m_prev_scene=0;
+
+
 Scene* HelloWorld::createScene()
 {
     // 'scene' is an autorelease object
@@ -137,8 +140,9 @@ void HelloWorld::transitionToGameScene() {
 
 void HelloWorld::transitionToMenuScene() {
     auto director = Director::getInstance();
+    int prev_scene=0;
     
-    auto scene2 = MenuScene::createScene();
+    auto scene2 = MenuScene::createScene(prev_scene);
     // TouchScene::setRunTutorial();
     //director->replaceScene(scene2);
     director->pushScene(scene2);
@@ -146,9 +150,10 @@ void HelloWorld::transitionToMenuScene() {
 
 void HelloWorld::transitionToAttributionScene() {
     auto director = Director::getInstance();
+    int prev_scene=0;
     
-    auto scene2 = AttributionScene::createScene();
+    auto scene2 = AttributionScene::createScene(prev_scene);
     // TouchScene::setRunTutorial();
-    //director->replaceScene(scene2);
-    director->pushScene(scene2);
+    director->replaceScene(scene2);
+    //director->pushScene(scene2);
 }
