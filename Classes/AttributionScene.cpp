@@ -48,7 +48,8 @@ bool AttributionScene::init()
     {
         return false;
     }
-        
+    ui::Button* btn;
+    
     cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
@@ -70,12 +71,15 @@ bool AttributionScene::init()
     auto sprite2 = Sprite::create("attribution.png");
       
     // position the sprite on the center of the screen
-    sprite2->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
+    sprite2->setPosition(Vec2(2*visibleSize.width/5 + origin.x, visibleSize.height/2 + origin.y));
     sprite2->setScale(1.0);
     // add the sprite as a child to this layer
     this->addChild(sprite2, 0);
 
-    ui::Button* btn = ui::Button::create("saha_tutorial_button.png");
+    if (m_prev_scene==0)
+        btn = ui::Button::create("saha_go.png");
+    else
+        btn = ui::Button::create("saha_back.png");
 
     btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
     btn->addTouchEventListener(CC_CALLBACK_2(AttributionScene::buttonPressed, this) );

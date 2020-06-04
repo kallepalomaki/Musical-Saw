@@ -149,7 +149,7 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                                 //printf("envGainAdj %f depthSmooth %f\n",envGainAdj, depthSmooth);
                                 //printf("expWin %f linWin %f", expWin, linWin);
                                 if (flagOn==true)
-                                    buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),0*envGainAdj)*0.03*0.4*(sinTmp+sinTmp2+sinTmp3);
+                                    buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),0*envGainAdj)*0.03*0.6*(sinTmp+0.2*sinTmp2+0.3*sinTmp3);
                                 else
                                     buffer0[sample]=0;
                             }

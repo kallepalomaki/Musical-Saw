@@ -89,7 +89,7 @@ bool MenuScene::init()
     this->addChild(sprite, 0);
     
     
-    ui::Button* btn = ui::Button::create("saha_tutorial_button.png");
+    ui::Button* btn = ui::Button::create("saha_go.png");
     btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
     btn->addTouchEventListener(CC_CALLBACK_2(MenuScene::buttonPressed, this) );
     btn->setScale(0.5);
@@ -108,7 +108,7 @@ bool MenuScene::init()
     btn2->setScale(0.25);
     this->addChild(btn2);
 
-    ui::Button* btn3= ui::Button::create("hammasratas.jpg");
+    ui::Button* btn3= ui::Button::create("saha_attribution_button.png");
     btn3->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 2*visibleSize.height/4 + origin.y));
     btn3->addTouchEventListener(CC_CALLBACK_2(MenuScene::attributionButtonPressed, this) );
     btn3->setScale(0.5);
