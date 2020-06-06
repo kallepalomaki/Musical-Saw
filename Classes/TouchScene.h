@@ -23,7 +23,7 @@ using namespace std;
 class TouchScene : public cocos2d::Layer
 {
 public:
-    static cocos2d::Scene* createScene(bool);
+    static cocos2d::Scene* createScene(bool, int);
     virtual bool init();
     virtual bool onTouchBegan(cocos2d::Touch*, cocos2d::Event*);
     virtual void onTouchEnded(cocos2d::Touch*, cocos2d::Event*);
@@ -39,11 +39,12 @@ public:
     float posToFreq(float);
     float posToEnvGain(float);
     float posToVibDepth(float);
-    void setRunTutorial(bool);
+    static void setRunTutorial(bool);
     string pickRecording();
     void transitionToMenuScene();
     void menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+    int setTutorialActive(bool);
     MainContentComponent testi2;
 private:
     cocos2d::Label* labelTouchInfo;
@@ -57,6 +58,7 @@ private:
     float scale2=0.9; // was 0.9
     float scale =1.0; // was 1
     float backGroundVolume=0.05f;
+    bool m_was_here=false;
     static bool m_run_tutorial;
     static int m_prev_scene;
     //static bool wait_scene_trans;

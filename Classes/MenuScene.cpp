@@ -13,7 +13,8 @@
 
 USING_NS_CC;
 bool run_tutorial = false;
-int MenuScene::m_prev_scene = 1;
+// prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+int MenuScene::m_prev_scene = 2;
 
 Scene* MenuScene::createScene(int prev_scene)
 {
@@ -33,7 +34,7 @@ Scene* MenuScene::createScene(int prev_scene)
 
 void MenuScene::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
-        transitionToGameScene();
+        transitionToGameScene(false);
     }
 }
 
@@ -65,10 +66,17 @@ void MenuScene::attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Wid
     }
 }
 
+void MenuScene::tutorialButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
+    if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
+        transitionToGameScene(true);
+    }
+}
+
 // on "init" you need to initialize your instance
 bool MenuScene::init()
 {
     ui::Button* btn2;
+    double x_left_pos=2.0/7.0, x_right_pos=5.0/7.0;
     //////////////////////////////
     // 1. super init first
     if ( !Layer::init() )
@@ -90,7 +98,7 @@ bool MenuScene::init()
     
     
     ui::Button* btn = ui::Button::create("saha_go.png");
-    btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
+    btn->setPosition(Vec2(4.5/6.0*visibleSize.width + origin.x, visibleSize.height/4 + origin.y));
     btn->addTouchEventListener(CC_CALLBACK_2(MenuScene::buttonPressed, this) );
     btn->setScale(0.5);
     this->addChild(btn);
@@ -103,38 +111,45 @@ bool MenuScene::init()
     else
         btn2 = ui::Button::create("mustarastas_nokka_kiinni.png");
     
-    btn2->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 3*visibleSize.height/4 + origin.y));
+    btn2->setPosition(Vec2(x_left_pos*visibleSize.width + origin.x, 3*visibleSize.height/4 + origin.y));
     btn2->addTouchEventListener(CC_CALLBACK_2(MenuScene::soundButtonPressed, this, btn2) );
-    btn2->setScale(0.25);
+    btn2->setScale(0.35);
     this->addChild(btn2);
 
     ui::Button* btn3= ui::Button::create("saha_attribution_button.png");
-    btn3->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 2*visibleSize.height/4 + origin.y));
+    btn3->setPosition(Vec2(x_left_pos*visibleSize.width + origin.x, visibleSize.height/4 + origin.y));
     btn3->addTouchEventListener(CC_CALLBACK_2(MenuScene::attributionButtonPressed, this) );
     btn3->setScale(0.5);
     this->addChild(btn3);
     
-    //auto funcCallAction = CallFunc::create([=](){
-    //    transitionToGameScene();
-    //});
+    ui::Button* btn4= ui::Button::create("saha_tutorial_button.png");
+    btn4->setPosition(Vec2(x_right_pos*visibleSize.width + origin.x, 3*visibleSize.height/4 + origin.y));
+    btn4->addTouchEventListener(CC_CALLBACK_2(MenuScene::tutorialButtonPressed, this) );
+    btn4->setScale(0.5);
+    this->addChild(btn4);
     
     return true;
 }
 
-void MenuScene::transitionToGameScene() {
+void MenuScene::transitionToGameScene(bool run_tutorial) {
     auto director = Director::getInstance();
-    
+    int prev_scene=2;
+
     if (m_prev_scene==0)
     {
-        auto scene2 = TouchScene::createScene(false);
+        // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+        auto scene2 = TouchScene::createScene(run_tutorial, prev_scene);
         director->replaceScene(scene2);
     }
-    else
+    else {
+        TouchScene::setRunTutorial(run_tutorial);
         director->popScene();
+    }
 }
 
 void MenuScene::transitionToAttributionScene() {
     auto director = Director::getInstance();
+    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
     int prev_scene=2;
     auto scene2 = AttributionScene::createScene(prev_scene);
     director->replaceScene(scene2);

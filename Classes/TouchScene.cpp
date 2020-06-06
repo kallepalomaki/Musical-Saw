@@ -13,6 +13,7 @@
 USING_NS_CC;
 
 bool TouchScene::m_run_tutorial=false;
+// prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
 int TouchScene::m_prev_scene=1;
 //bool TouchScene::wait_scene_trans=false;
 
@@ -41,13 +42,14 @@ void TouchScene::transitionToMenuScene() {
     //director->replaceScene(scene2);
 }
 
-cocos2d::Scene* TouchScene::createScene(bool run_tutorial)
+cocos2d::Scene* TouchScene::createScene(bool run_tutorial, int prev_scene)
 {
     auto scene = cocos2d::Scene::create();
     auto layer = TouchScene::create();
     scene->addChild(layer);
     //this->setRunTutorial(run_tutorial);
     m_run_tutorial=run_tutorial; // run_tutorial;
+    m_prev_scene=prev_scene;
     //auto director = Director::getInstance();
     //wait_scene_trans=true;
     return scene;
@@ -65,16 +67,19 @@ void TouchScene::onEnter()
         playTutorial();
     }
     else {
-        cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
-        Vec2 origin = Director::getInstance()->getVisibleOrigin();
+        if (m_was_here==false) {
+            m_was_here=true;
+            cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
+            Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-        ui::Button* btn = ui::Button::create("saha_tutorial_button.png");
-        auto hideShow = Sequence::create(DelayTime::create(5), RemoveSelf::create(),NULL);
-        btn->runAction(hideShow);
-        btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
-        btn->addTouchEventListener(CC_CALLBACK_2(TouchScene::buttonPressed, this) );
-        btn->setScale(0.5);
-        this->addChild(btn);
+            ui::Button* btn = ui::Button::create("saha_tutorial_button.png");
+            auto hideShow = Sequence::create(DelayTime::create(5), RemoveSelf::create(),NULL);
+            btn->runAction(hideShow);
+            btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
+            btn->addTouchEventListener(CC_CALLBACK_2(TouchScene::buttonPressed, this) );
+            btn->setScale(0.5);
+            this->addChild(btn);
+        }
     }
 
 }
@@ -263,9 +268,16 @@ void TouchScene::playTutorial() {
         // add the sprite as a child to this layer
         this->addChild(sprite4, 0);
     
+        //auto funcCallAction = CallFunc::create([=](){
+         //   transitionToGameScene();
+       // });
         auto sprite5 = Sprite::create("saha_ready_to_go.png");
-    
-        auto action5 = Sequence::create(Hide::create(), DelayTime::create(20), Show::create(), DelayTime::create(4), RemoveSelf::create(), NULL);
+        auto callbackSetTutorialActive = CallFunc::create([=](){
+            //TouchScene::setTutorialActive(false);
+            tutorial_active=false;
+        });
+        
+        auto action5 = Sequence::create(Hide::create(), DelayTime::create(20), Show::create(), DelayTime::create(4), callbackSetTutorialActive, RemoveSelf::create(), NULL);
         sprite5->runAction(action5);
         // position the sprite on the center of the screen
         sprite5->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -275,8 +287,9 @@ void TouchScene::playTutorial() {
     
     }
 }
-
-
+int TouchScene::setTutorialActive(bool in_tutorial_active) {
+    tutorial_active=in_tutorial_active;
+}
 void TouchScene::animateSaha(){
     saw_player->setAnchorPoint(Vec2(0, 0));
     saw_player->setPosition(20*scale2+30, 25*scale2-50);

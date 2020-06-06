@@ -23,9 +23,10 @@ public:
     void buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
     void soundButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType, cocos2d::ui::Button*);
     void attributionButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
+    void tutorialButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType);
 
     // a selector callback
-    void transitionToGameScene();
+    void transitionToGameScene(bool);
     void transitionToAttributionScene();
 
     // implement the "static create()" method manually

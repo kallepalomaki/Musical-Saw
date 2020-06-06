@@ -41,6 +41,7 @@ void HelloWorld::buttonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::Touch
 
 void HelloWorld::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
+        this->stopAllActions();
         transitionToMenuScene();
     }
 }
@@ -97,7 +98,7 @@ bool HelloWorld::init()
     btn->runAction(hideShow);
     btn->setPosition(Vec2(4*visibleSize.width/5 + origin.x, visibleSize.height/4 + origin.y));
     btn->addTouchEventListener(CC_CALLBACK_2(HelloWorld::buttonPressed, this) );
-    btn->setScale(0.5);
+    btn->setScale(0.4);
     this->addChild(btn);
     
     ui::Button* btn2 = ui::Button::create("hammasratas.png");
@@ -111,9 +112,9 @@ bool HelloWorld::init()
     ui::Button* btn3 = ui::Button::create("saha_attribution_button.png");
     auto hideShow3 = Sequence::create(Hide::create(), DelayTime::create(1), Show::create(),NULL);
     btn3->runAction(hideShow3);
-    btn3->setPosition(Vec2(4*visibleSize.width/5 + origin.x, 2*visibleSize.height/4 + origin.y));
+    btn3->setPosition(Vec2(1*visibleSize.width/5 + origin.x, 1*visibleSize.height/4 + origin.y));
     btn3->addTouchEventListener(CC_CALLBACK_2(HelloWorld::attributionButtonPressed, this) );
-    btn3->setScale(0.5);
+    btn3->setScale(0.4);
     this->addChild(btn3);
     
     auto funcCallAction = CallFunc::create([=](){
@@ -132,20 +133,23 @@ bool HelloWorld::init()
 
 void HelloWorld::transitionToGameScene() {
     auto director = Director::getInstance();
+    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+    int prev_scene=0;
     
-    auto scene2 = TouchScene::createScene(run_tutorial);
+    auto scene2 = TouchScene::createScene(run_tutorial, prev_scene);
     // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }
 
 void HelloWorld::transitionToMenuScene() {
     auto director = Director::getInstance();
+    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
     int prev_scene=0;
     
     auto scene2 = MenuScene::createScene(prev_scene);
     // TouchScene::setRunTutorial();
-    //director->replaceScene(scene2);
-    director->pushScene(scene2);
+    director->replaceScene(scene2);
+    //director->pushScene(scene2);
 }
 
 void HelloWorld::transitionToAttributionScene() {
