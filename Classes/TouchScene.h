@@ -57,7 +57,7 @@ private:
     bool bg_music=true;
     float scale2=0.9; // was 0.9
     float scale =1.0; // was 1
-    float backGroundVolume=0.05f;
+    float backGroundVolume=0.03f;
     bool m_was_here=false;
     static bool m_run_tutorial;
     static int m_prev_scene;

@@ -73,7 +73,7 @@ bool AttributionScene::init()
       
     // position the sprite on the center of the screen
     sprite2->setPosition(Vec2(2*visibleSize.width/5 + origin.x, visibleSize.height/2 + origin.y));
-    sprite2->setScale(1.0);
+    sprite2->setScale(0.95);
     // add the sprite as a child to this layer
     this->addChild(sprite2, 0);
 
