@@ -13,9 +13,7 @@
 USING_NS_CC;
 
 bool TouchScene::m_run_tutorial=false;
-// prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
 int TouchScene::m_prev_scene=1;
-//bool TouchScene::wait_scene_trans=false;
 
 void TouchScene::menuButtonPressed(cocos2d::Ref *pSender, cocos2d::ui::Widget::TouchEventType eventType) {
     if (cocos2d::ui::Widget::TouchEventType::BEGAN == eventType) {
@@ -27,19 +25,11 @@ void TouchScene::transitionToMenuScene() {
     auto director = Director::getInstance();
     auto audio = CocosDenshion::SimpleAudioEngine::getInstance();
     int prev_scene=1;
-    //director->pushScene(<#Scene *scene#>)
-    printf("transition 1\n");
     if (audio->isBackgroundMusicPlaying()) {
         printf("trying to stop background\n");
-        //audio->stopBackgroundMusic();
-        //delete audio;
     }
-    printf("transition2\n");
-    //testi2.shut();//releaseResources();
-    //testi2.releaseResources();
     auto scene2 = MenuScene::createScene(prev_scene);
     director->pushScene(scene2);
-    //director->replaceScene(scene2);
 }
 
 cocos2d::Scene* TouchScene::createScene(bool run_tutorial, int prev_scene)
@@ -47,22 +37,15 @@ cocos2d::Scene* TouchScene::createScene(bool run_tutorial, int prev_scene)
     auto scene = cocos2d::Scene::create();
     auto layer = TouchScene::create();
     scene->addChild(layer);
-    //this->setRunTutorial(run_tutorial);
     m_run_tutorial=run_tutorial; // run_tutorial;
     m_prev_scene=prev_scene;
-    //auto director = Director::getInstance();
-    //wait_scene_trans=true;
     return scene;
 }
 
 void TouchScene::onEnter()
 {
     cocos2d::Layer::onEnter();
-  //  m_run_tutorial=true;
-    //if (m_run_tutorial==true) {
-    //    playTutorial();
-    //}
-    //while(wait_scene_trans==false);
+
     if (m_run_tutorial) {
         playTutorial();
     }
@@ -92,18 +75,11 @@ void TouchScene::update(float delta)
     bg_music=not(userdefaults->getBoolForKey("bg_music_off"));
     if (bg_music) {
         auto backGroundAudio = CocosDenshion::SimpleAudioEngine::getInstance();
-        //audio->setBackgroundMusicVolume(0.001f);
-        if (!backGroundAudio->isBackgroundMusicPlaying()) {
-            //auto backGroundAudio= CocosDenshion::SimpleAudioEngine::getInstance();
-            //backGroundAudio->setBackgroundMusicVolume(0.1f);
-            
-            
+        if (!backGroundAudio->isBackgroundMusicPlaying()) {           
             auto recording_name=pickRecording();
             const char * recording_name_c = recording_name.c_str();
-            //auto recording_name_c="352051_kaki.mp3";
 
             backGroundAudio-> playBackgroundMusic(recording_name_c,false);
-            //backGroundAudio-> playBackgroundMusic("352051_kaki.mp3",false);
             
             backGroundAudio->setBackgroundMusicVolume(backGroundVolume);
             sleep(1.0f);
@@ -162,7 +138,6 @@ bool TouchScene::init()
     
     // Add background image
     auto sprite = cocos2d::Sprite::create("saha_keskella_tausta_test.png");
-//    auto sprite = cocos2d::Sprite::create("saha_tausta_test.png");
 
     sprite->setAnchorPoint(cocos2d::Vec2(0, 0));
     sprite->setPosition(20*scale2-330+30, 25*scale2-160); // 110 30remove last pluses
@@ -182,7 +157,6 @@ bool TouchScene::init()
     btn2->setScale(0.5);
     this->addChild(btn2);
 
-    //while(m_run_tutorial==false);
     if (flag_show_touch) {
         temp = Sprite::create("red_dot.png");
             
@@ -221,7 +195,7 @@ void TouchScene::playTutorial() {
         cocos2d::Size visibleSize = Director::getInstance()->getVisibleSize();
         Vec2 origin = Director::getInstance()->getVisibleOrigin();
 
-        // add "HelloWorld" splash screen"
+        // add "StartScene" splash screen"
         auto sprite = Sprite::create("saha_tutorial.png");
       
         // position the sprite on the center of the screen
@@ -231,10 +205,6 @@ void TouchScene::playTutorial() {
         this->addChild(sprite, 0);
         auto scaleBy = ScaleBy::create(0.8,2.2);
         sprite->runAction(scaleBy);
-        //auto remove_child = DelayTime::create(3);
-        //sleep(10);
-        //this->removeChild(sprite2, true);
-        //animSpr->runAction(Sequence::create(animate, removeSelf, nullptr));
         auto action = Sequence::create(DelayTime::create(5), RemoveSelf::create(), NULL);
     
         sprite->runAction(action);
@@ -268,12 +238,8 @@ void TouchScene::playTutorial() {
         // add the sprite as a child to this layer
         this->addChild(sprite4, 0);
     
-        //auto funcCallAction = CallFunc::create([=](){
-         //   transitionToGameScene();
-       // });
         auto sprite5 = Sprite::create("saha_ready_to_go.png");
         auto callbackSetTutorialActive = CallFunc::create([=](){
-            //TouchScene::setTutorialActive(false);
             tutorial_active=false;
         });
         
@@ -330,18 +296,10 @@ bool TouchScene::onTouchBegan(Touch* touch, Event* event)
 
     animateSaha();
 
-    //labelTouchInfo->setPosition(1000,1300);
-    
-    //char touchLocBody[] = "You Touched Here X: %f Y: %f";
-    //char *touchLocStr = new char[strlen(touchLocBody)+20];
-    
-    //sprintf(touchLocStr,touchLocBody,touch->getLocation().x, touch->getLocation().y);
     if (flag_show_touch) {
         temp->setVisible(true);
         temp->setPosition(Vec2(touch->getLocation().x, touch->getLocation().y));
     }
-    //labelTouchInfo->setString(touchLocStr);
-    //temp->setPosition(Vec2(200,200));
     return true;
 }
 
@@ -350,7 +308,6 @@ float TouchScene::posToFreq(float x)
     float a=0.0509,  b=105, f; //b was 115
     
     f=pow(2,((a*x+b)/12));
-    //f=972; //dbg
     return f;
    
 }
@@ -358,7 +315,6 @@ float TouchScene::posToFreq(float x)
 float TouchScene::posToEnvGain(float y) {
     float a=0.142,b=-40 ,f ;
     f=pow(10,(a*y+b)/20);
-    //f=0.165462; //dbg
     return f;
 }
 
@@ -382,7 +338,6 @@ void TouchScene::onTouchMoved(Touch* touch, Event* event)
     testi2.freqSin=posToFreq(touch->getLocation().x);
     testi2.envGain=posToEnvGain(touch->getLocation().y);
     testi2.depth=posToVibDepth(touch->getLocation().y);
-    //cocos2d::log("touch moved");
     if (flag_show_touch)
         temp->setPosition(Vec2(touch->getLocation().x, touch->getLocation().y));
 

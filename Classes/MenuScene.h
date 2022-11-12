@@ -5,8 +5,8 @@
 //  Created by Kalle Palomäki on 28.5.2020.
 //
 
-#ifndef __drums__MenuScene__
-#define __drums__MenuScene__
+#ifndef __MenuScene__
+#define __MenuScene__
 
 #include <stdio.h>
 #include "cocos2d.h"

@@ -13,7 +13,7 @@
 
 USING_NS_CC;
 bool run_tutorial = false;
-// prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+// prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
 int MenuScene::m_prev_scene = 2;
 
 Scene* MenuScene::createScene(int prev_scene)
@@ -88,7 +88,7 @@ bool MenuScene::init()
     Vec2 origin = Director::getInstance()->getVisibleOrigin();
     
     
-    // add "HelloWorld" splash screen"
+    // add "StartScene" splash screen"
     auto sprite = Sprite::create("green_background_only.png");
     // position the sprite on the center of the screen
     sprite->setPosition(Vec2(visibleSize.width/2 + origin.x, visibleSize.height/2 + origin.y));
@@ -137,7 +137,7 @@ void MenuScene::transitionToGameScene(bool run_tutorial) {
 
     if (m_prev_scene==0)
     {
-        // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+        // prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
         auto scene2 = TouchScene::createScene(run_tutorial, prev_scene);
         director->replaceScene(scene2);
     }
@@ -149,7 +149,7 @@ void MenuScene::transitionToGameScene(bool run_tutorial) {
 
 void MenuScene::transitionToAttributionScene() {
     auto director = Director::getInstance();
-    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+    // prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
     int prev_scene=2;
     auto scene2 = AttributionScene::createScene(prev_scene);
     director->replaceScene(scene2);

@@ -1,19 +1,19 @@
 //
-//  HelloWorldScene.h
+//  StartScene.h
 //  drums
 //
 //  Created by Palomäki Kalle on 05/08/15.
 //
 //
 
-#ifndef __drums__HelloWorldScene__
-#define __drums__HelloWorldScene__
+#ifndef __StartScene__
+#define __StartScene__
 
 //#include <stdio.h>
 #include "cocos2d.h"
 #include "ui/CocosGUI.h"
 
-class HelloWorld : public cocos2d::Layer
+class StartScene : public cocos2d::Layer
 {
 public:
     // there's no 'id' in cpp, so we recommend returning the class instance pointer
@@ -33,7 +33,7 @@ public:
 
 
     // implement the "static create()" method manually
-    CREATE_FUNC(HelloWorld);
+    CREATE_FUNC(StartScene);
 private:
     cocos2d::Label* labelTouchInfo;
     bool run_tutorial = false;
@@ -41,4 +41,4 @@ private:
 
 };
 
-#endif //__drums__HelloWorldScene__
+#endif //__StartScene__

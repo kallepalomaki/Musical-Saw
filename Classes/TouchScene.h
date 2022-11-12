@@ -6,8 +6,8 @@
 //
 //
 
-#ifndef __drums__TouchScene__
-#define __drums__TouchScene__
+#ifndef __TouchScene__
+#define __TouchScene__
 
 #include <stdio.h>
 #include <string>
@@ -63,4 +63,4 @@ private:
     static int m_prev_scene;
     //static bool wait_scene_trans;
 };
-#endif /* defined(__drums__TouchScene__) */
+#endif /* defined(__TouchScene__) */

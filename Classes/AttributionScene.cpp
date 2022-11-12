@@ -12,7 +12,7 @@
 #include "TouchScene.h"
 
 USING_NS_CC;
-// prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+// prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
 int AttributionScene::m_prev_scene = 3;
 
 Scene* AttributionScene::createScene(int prev_scene)
@@ -92,19 +92,17 @@ bool AttributionScene::init()
 
 void AttributionScene::transitionToMenuScene() {
     auto director = Director::getInstance();
-    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+    // prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
     int prev_scene=3;
     auto scene2 = MenuScene::createScene(prev_scene);
-    // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }
 
 void AttributionScene::transitionToGameScene() {
     auto director = Director::getInstance();
-    // prev_scene 0 HelloWorld, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
+    // prev_scene 0 StartScene, 1 TouchScene, 2 MenuScene, 3 Attribution Scene
     int prev_scene=3;
     run_tutorial=false;
     auto scene2 = TouchScene::createScene(run_tutorial, prev_scene);
-    // TouchScene::setRunTutorial();
     director->replaceScene(scene2);
 }
