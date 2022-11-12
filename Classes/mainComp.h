@@ -1,13 +1,12 @@
 //
 //  mainComp.h
-//  drums4
 //
 //  Created by Kalle Palomäki on 17/08/15.
 //
 //
 #include <iostream>
-#ifndef drums4_mainComp_h
-#define drums4_mainComp_h
+#ifndef _mainComp_h
+#define _mainComp_h
 
 /*
  ==============================================================================

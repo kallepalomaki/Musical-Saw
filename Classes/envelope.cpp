@@ -66,7 +66,6 @@ envelope::envelope(){
 void envelope::generateEnvelope(int numSamples)
 {
     int i;
-    // double a[]={1, 1, 1}, b[]={1, 1, 1};
     double ranNu;
     
     vibIntegrator.inSignal.clear();
@@ -80,14 +79,13 @@ void envelope::generateEnvelope(int numSamples)
     vibIntegrator.buffLen=vibIntegrator.inSignal.size();
     vibIntegrator.filterLoop();
     
-    //outEnvelope=vibIntegrator.outEnvelope;
-    if(1){
+
     lpIIR.inSignal=vibIntegrator.outEnvelope;//,vibIntegrator.out.size());
     lpIIR.buffLen=lpIIR.inSignal.size();
     lpIIR.filterLoop();
     
      outEnvelope=lpIIR.outEnvelope;
-    }
+    
 }
 
 

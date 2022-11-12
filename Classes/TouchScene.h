@@ -1,6 +1,5 @@
 //
 //  TouchScene.h
-//  drums
 //
 //  Created by Palomäki Kalle on 04/08/15.
 //

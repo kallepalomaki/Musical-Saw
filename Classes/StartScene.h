@@ -1,6 +1,5 @@
 //
 //  StartScene.h
-//  drums
 //
 //  Created by Palomäki Kalle on 05/08/15.
 //

@@ -1,6 +1,5 @@
 //
-//  StartScene.cpp
-//  drums
+//  StartScene.cpp  
 //
 //  Created by Palomäki Kalle on 05/08/15.
 //

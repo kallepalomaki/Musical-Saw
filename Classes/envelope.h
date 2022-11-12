@@ -16,13 +16,10 @@ class filterIIR {
 public:
     int taps,buffLen;
     std::vector <double> a, b, xBuffer, yBuffer,inSignal, outEnvelope;
-    // double *signal;
     double y;
     void initializeVibIntegrator();
     void filterLoop();
     void initializeLpIIR();
-    //public:
-    //   filterIIR();// (double *, double *, double *);
 };
 
 class envelope {

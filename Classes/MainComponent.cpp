@@ -43,9 +43,6 @@ void MainContentComponent::shut()
     shutdownAudio();
 }
 
-//class MainContentComponent   : public AudioAppComponent
-//{
-//public:
 MainContentComponent::MainContentComponent()
     {
         timeSampleIdx=0;
@@ -80,21 +77,12 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
             static bool flagAtt=false;
             int i;
             static int buffer_cnt=0;
-            // random device class instance, source of 'true' randomness for initializing random seed
-            
-            //for (int channel = 0; channel < bufferToFill.buffer->getNumChannels(); ++channel)
-            //{
-                // Get a pointer to the start sample in the buffer for this audio output channel
-                float* const buffer0 = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
-                float* const buffer1 = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
+            // Get a pointer to the start sample in the buffer for this audio output channel
+            float* const buffer0 = bufferToFill.buffer->getWritePointer (0, bufferToFill.startSample);
+            float* const buffer1 = bufferToFill.buffer->getWritePointer (1, bufferToFill.startSample);
 
-            //if (channel==0){
-                sawEnvelope.generateEnvelope(bufferToFill.numSamples);
-                //}
-
-              // std::cout << "buff" << bufferToFill.numSamples << std::endl;
-                // Fill the required number of samples with noise betweem -0.125 and +0.125
-            //printf("start sample buffer\n");
+            sawEnvelope.generateEnvelope(bufferToFill.numSamples);
+        
             
             if (buffer_cnt==0){
                 std::random_device rd;
@@ -110,91 +98,69 @@ void MainContentComponent::getNextAudioBlock (const AudioSourceChannelInfo& buff
                 buffer_cnt=0;
             }
             
-                for (int sample = 0; sample < bufferToFill.numSamples; ++sample){
-                    //buffer[sample] = random.nextFloat() * 0.25f - 0.125f;
-                    //if (channel==0){
-                        if(touchBegun==true){
-                            freqSinSmooth=freqSin;
-                            timeSampleIdx=0;
-                            touchBegun=false;
-                            flagOn=true;
-                            flagAtt=false;
-                            TEndSampleIdx=TExpWin*fs;
-                            //printf("flagAtt false\n");
-                        }
-                        else{
-                            if(touchEnded==true)
-                            {
-                                flagAtt=true;
-                                touchEnded=false;
-                                TEndSampleIdx=TExpWin*fs;
-                                //printf("set FlagAtt true\n");
-                            }
-//                            printf("flag att %d\n",flagAtt);
-                        //    if(flagOn==true){
-                                timeSec=((double) timeSampleIdx++)/fs;
-                                freqSinSmoothLog=a*log2(freqSin+0.01)+(1-a)*freqSinSmoothLog;
-                                
-                                //printf("freq smft %lf freq %lf mem0 %lf mem1 %lf \n",freqSinSmooth,freqSin,FM[0],FM[1]);
-                                freqSinSmooth=pow(2,freqSinSmoothLog);
-                                freqUpdate=freqUpdate+freqSinSmooth;
-                                freq2Update=1.001*freqUpdate;
-                                freq3Update=0.9991*freqUpdate;
-                                envGainSmooth=aG*envGain+(1-aG)*envGainSmooth;
-                                envGainAdj=pow(envGainSmooth,0.5);
-                                
-                                //printf("envgain %f \n",envGainAdj);
-                                depthSmooth=aG*depth*1.3+(1-aG)*depthSmooth;
-                                envFunc=pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),envGainAdj);
-                                raSmooth=0.0000001*ra_sample+(1-0.0000001)*raSmooth;
-
-                                
-                                fVib=fVibBase+raSmooth;
-                                //if (sample==0)
-                                 //   printf("val %f %f %f %f\n", fVib, envGainAdj, ra_sample, raSmooth);
-                                sinTmp=sin(2*3.14*freqUpdate/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freqUpdate/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
-                                sinTmp2=sin(2*3.14*freq2Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq2Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
-                                sinTmp3=sin(2*3.14*freq3Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq3Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
-                                
-                                if (timeSec<TExpWin)
-                                {
-                                    linWin=(-1/TExpWin*dBAtt*timeSec+dBAtt);
-                                    expWin=pow(10,linWin/20);
-                                }
-                                else
-                                    expWin=1;
-                            
-                                if(flagAtt==true && TEndSampleIdx>=0)
-                                {
-                                    linWin=-1/TExpWin*dBAtt*((TEndSampleIdx--)/fs)+dBAtt;
-                                    expWin=pow(10,linWin/20);
-                                    if(TEndSampleIdx==0)
-                                        flagOn=false;
-                                }
-                                else
-                                {
-                                    //printf("flag att false\n");
-                                    
-                                }
-                                //printf("envGainAdj %f depthSmooth %f\n",envGainAdj, depthSmooth);
-                                //printf("expWin %f linWin %f", expWin, linWin);
-                                if (flagOn==true)
-                                    buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),0*envGainAdj)*0.03*0.7*(sinTmp+0.1*sinTmp2+0.1*sinTmp3);
-                                else
-                                    buffer0[sample]=0;
-                            }
-                            //else{
-                            //    buffer0[sample]=0;
-                            //}
-                            buffer1[sample]=gain*buffer0[sample];
-                        //}
+            for (int sample = 0; sample < bufferToFill.numSamples; ++sample){
+                    if(touchBegun==true){
+                        freqSinSmooth=freqSin;
+                        timeSampleIdx=0;
+                        touchBegun=false;
+                        flagOn=true;
+                        flagAtt=false;
+                        TEndSampleIdx=TExpWin*fs;
                     }
-                    
-                  // printf("time idx %d sec %lf buff %lf sample %d ",timeSampleIdx, timeSec, buffer[sample],sample);
+                    else{
+                        if(touchEnded==true)
+                        {
+                            flagAtt=true;
+                            touchEnded=false;
+                            TEndSampleIdx=TExpWin*fs;
+                        }
+                        timeSec=((double) timeSampleIdx++)/fs;
+                        freqSinSmoothLog=a*log2(freqSin+0.01)+(1-a)*freqSinSmoothLog;
+                        
+                        freqSinSmooth=pow(2,freqSinSmoothLog);
+                        freqUpdate=freqUpdate+freqSinSmooth;
+                        freq2Update=1.001*freqUpdate;
+                        freq3Update=0.9991*freqUpdate;
+                        envGainSmooth=aG*envGain+(1-aG)*envGainSmooth;
+                        envGainAdj=pow(envGainSmooth,0.5);
+                        
+                        depthSmooth=aG*depth*1.3+(1-aG)*depthSmooth;
+                        envFunc=pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),envGainAdj);
+                        raSmooth=0.0000001*ra_sample+(1-0.0000001)*raSmooth;
 
+                        
+                        fVib=fVibBase+raSmooth;
+                        sinTmp=sin(2*3.14*freqUpdate/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freqUpdate/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
+                        sinTmp2=sin(2*3.14*freq2Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq2Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
+                        sinTmp3=sin(2*3.14*freq3Update/fs+2*depthSmooth*sin(2*3.14*fVib*timeSec))+ 0.25*sin(2*3.14*2*freq3Update/fs+depthSmooth*sin(2*3.14*fVib*timeSec/fs));
+                        
+                        if (timeSec<TExpWin)
+                        {
+                            linWin=(-1/TExpWin*dBAtt*timeSec+dBAtt);
+                            expWin=pow(10,linWin/20);
+                        }
+                        else
+                            expWin=1;
+                    
+                        if(flagAtt==true && TEndSampleIdx>=0)
+                        {
+                            linWin=-1/TExpWin*dBAtt*((TEndSampleIdx--)/fs)+dBAtt;
+                            expWin=pow(10,linWin/20);
+                            if(TEndSampleIdx==0)
+                                flagOn=false;
+                        }
+                        else
+                        {
+                            
+                        }
+                        if (flagOn==true)
+                                buffer0[sample]=expWin*pow(fabs(0.05*sawEnvelope.outEnvelope[sample]),0*envGainAdj)*0.03*0.7*(sinTmp+0.1*sinTmp2+0.1*sinTmp3);
+                            else
+                                buffer0[sample]=0;
+                        }
+                        buffer1[sample]=gain*buffer0[sample];
                 }
-            //}
-        //}
+        }
         
         
 //Component* createMainContentComponent()     { return new MainContentComponent(); }
